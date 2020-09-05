@@ -17,5 +17,7 @@ No provider.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| integration\_id | n/a |
 

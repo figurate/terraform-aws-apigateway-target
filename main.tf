@@ -5,7 +5,7 @@
  *
  * Rationale: Provide simple API gateway targets.
  */
-resource "aws_apigatewayv2_integration" "route" {
+resource "aws_apigatewayv2_integration" "target" {
   api_id             = var.api_id
   description        = var.description
   integration_type   = var.integration_type

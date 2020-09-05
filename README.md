@@ -28,5 +28,7 @@ No requirements.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| integration\_id | n/a |
 
