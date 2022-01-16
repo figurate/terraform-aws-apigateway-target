@@ -10,11 +10,11 @@ clean:
 
 validate:
 	$(TERRAFORM) init && $(TERRAFORM) validate && \
-		$(TERRAFORM) init modules/http && $(TERRAFORM) validate modules/http && \
-		$(TERRAFORM) init modules/cloudmap && $(TERRAFORM) validate modules/cloudmap && \
-		$(TERRAFORM) init modules/loadbalancer && $(TERRAFORM) validate modules/loadbalancer && \
-		$(TERRAFORM) init modules/lambda && $(TERRAFORM) validate modules/lambda && \
-		$(TERRAFORM) init modules/kinesis && $(TERRAFORM) validate modules/kinesis
+		$(TERRAFORM) -chdir=modules/http init && $(TERRAFORM) -chdir=modules/http validate && \
+		$(TERRAFORM) -chdir=modules/cloudmap init && $(TERRAFORM) -chdir=modules/cloudmap validate && \
+		$(TERRAFORM) -chdir=modules/loadbalancer init && $(TERRAFORM) -chdir=modules/loadbalancer validate && \
+		$(TERRAFORM) -chdir=modules/lambda init && $(TERRAFORM) -chdir=modules/lambda validate && \
+		$(TERRAFORM) -chdir=modules/kinesis init && $(TERRAFORM) -chdir=modules/kinesis validate
 
 test: validate
 	$(CHECKOV) -d /work && \
