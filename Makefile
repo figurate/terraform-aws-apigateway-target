@@ -1,30 +1,31 @@
 SHELL:=/bin/bash
 include .env
 
-.PHONY: all clean validate test docs format
+VERSION=$(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
-all: validate test docs format
+.PHONY: all clean validate test diagram docs format release
+
+all: test docs format
 
 clean:
 	rm -rf .terraform/
 
 validate:
-	$(TERRAFORM) init && $(TERRAFORM) validate && \
-		$(TERRAFORM) -chdir=modules/http init && $(TERRAFORM) -chdir=modules/http validate && \
-		$(TERRAFORM) -chdir=modules/cloudmap init && $(TERRAFORM) -chdir=modules/cloudmap validate && \
-		$(TERRAFORM) -chdir=modules/loadbalancer init && $(TERRAFORM) -chdir=modules/loadbalancer validate && \
-		$(TERRAFORM) -chdir=modules/lambda init && $(TERRAFORM) -chdir=modules/lambda validate && \
-		$(TERRAFORM) -chdir=modules/kinesis init && $(TERRAFORM) -chdir=modules/kinesis validate
+	$(TERRAFORM) init -upgrade && $(TERRAFORM) validate && \
+		$(TERRAFORM) -chdir=modules/http init -upgrade && $(TERRAFORM) -chdir=modules/http validate && \
+		$(TERRAFORM) -chdir=modules/cloudmap init -upgrade && $(TERRAFORM) -chdir=modules/cloudmap validate && \
+		$(TERRAFORM) -chdir=modules/loadbalancer init -upgrade && $(TERRAFORM) -chdir=modules/loadbalancer validate && \
+		$(TERRAFORM) -chdir=modules/lambda init -upgrade && $(TERRAFORM) -chdir=modules/lambda validate && \
+		$(TERRAFORM) -chdir=modules/kinesis init -upgrade && $(TERRAFORM) -chdir=modules/kinesis validate
 
 test: validate
-	$(CHECKOV) -d /work && \
-		$(CHECKOV) -d /work/modules/http && \
-		$(CHECKOV) -d /work/modules/cloudmap && \
-		$(CHECKOV) -d /work/modules/loadbalancer && \
-		$(CHECKOV) -d /work/modules/lambda && \
-		$(CHECKOV) -d /work/modules/kinesis
+	$(CHECKOV) -d /work
+	$(TFSEC) /work
 
-docs:
+diagram:
+	$(DIAGRAMS) diagram.py
+
+docs: diagram
 	docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./ >./README.md && \
 		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/http >./modules/http/README.md
 		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/cloudmap >./modules/cloudmap/README.md
