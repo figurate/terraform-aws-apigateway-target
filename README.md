@@ -1,5 +1,7 @@
 # ![AWS](aws-logo.png) API Gateway Target
 
+[![CI](https://github.com/figurate/terraform-aws-apigateway-target/actions/workflows/main.yml/badge.svg)](https://github.com/figurate/terraform-aws-apigateway-target/actions/workflows/main.yml)
+
 Purpose: Provision a configured integration point using templates.
 
 Rationale: Provide simple API gateway targets.
