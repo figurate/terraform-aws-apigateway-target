@@ -26,7 +26,7 @@ No requirements.
 | description | An optional description of the integration | `any` | `null` | no |
 | integration\_method | Method used to invoke the target | `string` | `"ANY"` | no |
 | integration\_type | Target type | `any` | n/a | yes |
-| integration\_uri | URI of the target | `any` | n/a | yes |
+| integration\_uri | URI of the target | `any` | `null` | no |
 
 ## Outputs
 

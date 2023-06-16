@@ -13,6 +13,7 @@ variable "integration_type" {
 
 variable "integration_uri" {
   description = "URI of the target"
+  default     = null
 }
 
 variable "integration_method" {
